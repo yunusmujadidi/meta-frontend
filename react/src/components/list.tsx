@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const List = () => {
   const [formData, setFormData] = useState({
     goal: "",
     by: "",
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [goals, setGoals] = useState<
     Array<{ goal: string; by: string; id: number }>
@@ -30,6 +32,7 @@ export const List = () => {
       setGoals((prev) => [...prev, { ...formData, id: Date.now() }]);
     }
     setFormData({ goal: "", by: "" });
+    inputRef.current?.focus();
   };
 
   const handleDeleteObject = (id: number) => {
@@ -48,6 +51,7 @@ export const List = () => {
               Goal
             </label>
             <input
+              ref={inputRef}
               type="text"
               value={formData.goal}
               onChange={handleAddGoal}
